@@ -3,15 +3,22 @@ from .models import City, Shop, Order
 
 
 class CityForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, help_text='Please enter the City name')
+    name = forms.CharField(max_length=100, help_text='Введите название города')
+    slug = forms.CharField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = City
-
-
-class ShopForm(forms.ModelForm):
-    name = forms.CharField(max_length=200, help_text='Please enter the Shop name')
-
-    class Meta:
-        model = Shop
-        exclude = ('city',)
+        exclude = ('slug',)
+#
+#
+# class ShopForm(forms.ModelForm):
+#     name = forms.CharField(max_length=200, help_text='Please enter the Shop name')
+#
+#     class Meta:
+#         model = Shop
+#         exclude = ('city',)
+#
+#
+# class OrderForm(forms.ModelForm):
+#     class Meta:
+#         model = Order

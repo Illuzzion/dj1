@@ -1,0 +1,18 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Список магазинов{% endblock %}
+
+{% block body_block %}
+    {% if shop_list %}
+        <h1>Список магазинов</h1>
+        <ul>
+            {% for shop in shop_list %}
+                <li>{{ shop.shop_name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        В этом городе наших магазинов нет
+    {% endif %}
+
+{% endblock %}

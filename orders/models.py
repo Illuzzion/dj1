@@ -1,12 +1,12 @@
 from django.db import models
-from django.utils.text import slugify
+from uuslug import slugify
 
 
 class City(models.Model):
     """
     Города
     """
-    name = models.CharField(max_length=100, verbose_name="Название города")
+    name = models.CharField(max_length=100, verbose_name="Название города", unique=True)
     slug = models.SlugField(max_length=100)
 
     def __str__(self):
@@ -37,7 +37,6 @@ class Shop(models.Model):
         verbose_name = 'Магазин'
         verbose_name_plural = "Магазины"
         unique_together = ('city', 'shop_name')
-        # unique_together = (('city', 'shop_name'),)
         ordering = ('city', 'shop_name')
 
 

@@ -9,6 +9,10 @@
     empty body
 {% endblock %}
 <hr>
-<a href="{% url 'orders:index' %}">Главная</a>
+<ul>
+    <li><a href="{% url 'orders:index' %}">Главная</a></li>
+    <li><a href="{% url 'orders:city_list' %}">Города</a></li>
+</ul>
+
 </body>
 </html>

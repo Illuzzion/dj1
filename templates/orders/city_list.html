@@ -1,0 +1,18 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Список городов{% endblock %}
+
+{% block body_block %}
+    {% if city_list %}
+        <h1>Список городов</h1>
+        <ul>
+            {% for city in city_list %}
+                <li><a href="{% url 'orders:shop_list' city.slug %}">{{ city.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        CityList empty
+    {% endif %}
+    <a href="{% url 'orders:add_city' %}">Добавить город</a>
+{% endblock %}
