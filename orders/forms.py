@@ -9,14 +9,16 @@ class CityForm(forms.ModelForm):
     class Meta:
         model = City
         exclude = ('slug',)
-#
-#
-# class ShopForm(forms.ModelForm):
-#     name = forms.CharField(max_length=200, help_text='Please enter the Shop name')
-#
-#     class Meta:
-#         model = Shop
-#         exclude = ('city',)
+
+
+class ShopForm(forms.ModelForm):
+    name = forms.CharField(max_length=200, help_text='Введите название магазина')
+    city = forms.CharField(widget=forms.HiddenInput, initial=0, required=False)
+
+    class Meta:
+        model = Shop
+        exclude = ('city',)
+
 #
 #
 # class OrderForm(forms.ModelForm):

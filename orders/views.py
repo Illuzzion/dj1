@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
-from orders.forms import CityForm
+from orders.forms import CityForm, ShopForm
 from .models import Order, Shop, City
 
 
@@ -15,7 +15,7 @@ class IndexView(generic.ListView):
 # order = Order.objects.get(id=1)
 # shops = Shop.objects.filter(order=order)
 
-class DetailView(generic.DetailView):
+class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'orders/detail.html'
 
@@ -30,7 +30,7 @@ class ShopListView(generic.ListView):
     template_name = 'orders/shop_list.html'
 
     def get_queryset(self):
-        city_name = self.kwargs['city_name']
+        city_name = self.kwargs['city_slug']
         return Shop.objects.filter(city__slug=city_name)
 
 
@@ -44,3 +44,16 @@ def add_city(request):
         return redirect('orders:city_list')
     else:
         return render(request, 'orders/add_city.html', dict(form=form))
+
+
+def add_shop(request, city_slug):
+    city = get_object_or_404(City, slug=city_slug)
+    request.POST['city'] = city
+
+    form = ShopForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('orders:city_list')
+    else:
+        return render(request, 'orders/add_shop.html', dict(form=form))
