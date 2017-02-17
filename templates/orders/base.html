@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title_block %}empty title{% endblock %}</title>
+</head>
+<body>
+{% block body_block %}
+    empty body
+{% endblock %}
+<hr>
+<a href="{% url 'orders:index' %}">Главная</a>
+</body>
+</html>

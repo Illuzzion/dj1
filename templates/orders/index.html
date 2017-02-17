@@ -1,0 +1,14 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+{% load tz %}
+{% block title_block %}Главная страница{% endblock %}
+{% block body_block %}
+    <ul>
+        {% for order in order_list %}
+            <li>
+                <a href="{% url 'orders:detail' order.id %}">Заказ №{{ order.id }} от
+                    {% localtime on %}{{ order.date }}{% endlocaltime %}{{ order.date }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
