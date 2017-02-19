@@ -4,15 +4,15 @@
 {% block title_block %}Список магазинов{% endblock %}
 
 {% block body_block %}
-    {% if shop_list %}
+    {% if data.shops %}
         <h1>Список магазинов</h1>
         <ul>
-            {% for shop in shop_list %}
-                <li>{{ shop.shop_name }}</li>
+            {% for shop in object_list.shops %}
+                <li>{{ shop }}</li>
             {% endfor %}
         </ul>
     {% else %}
-        В городе "{{ shop_list.city_id }}" наших магазинов нет
+        В {{ data.city.name }} наших магазинов нет
     {% endif %}
-    {% url 'orders:add_shop' shop_list.city.name %}
+    <a href="{% url 'orders:add_shop' data.city.slug %}">Добавить магазин</a>
 {% endblock %}

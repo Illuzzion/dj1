@@ -29,10 +29,13 @@ class CityListView(generic.ListView):
 class ShopListView(generic.ListView):
     model = Shop
     template_name = 'orders/shop_list.html'
+    context_object_name = 'data'
 
     def get_queryset(self):
-        city_name = self.kwargs['city_slug']
-        return Shop.objects.filter(city__slug=city_name)
+        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
+        shops = Shop.objects.filter(city=city)
+        return locals()
+        # return dict(shops=shop_list, city=city)
 
 
 def add_city(request):
@@ -49,13 +52,14 @@ def add_city(request):
 
 def add_shop(request, city_slug):
     city = get_object_or_404(City, slug=city_slug)
-    return HttpResponse("add shop")
-    # request.POST['city'] = city
+    # TODO: копать тут
+
+    form = ShopForm(request.POST or None)
     #
-    # form = ShopForm(request.POST or None)
-    #
-    # if form.is_valid():
-    #     form.save()
+    if form.is_valid():
+        pass
+    # form.save()
     #     return redirect('orders:city_list')
-    # else:
-    #     return render(request, 'orders/add_shop.html', dict(form=form))
+    else:
+        form.current_city = city
+        return render(request, 'orders/add_shop.html', dict(form=form))

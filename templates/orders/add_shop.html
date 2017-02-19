@@ -5,4 +5,10 @@
 
 {% block body_block %}
     <h1>Добавление магазина</h1>
+    {#    {{ form.current_city.slug }}#}
+    <form method="post" action="{% url 'orders:add_shop' form.current_city.slug %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить магазин</button>
+    </form>
 {% endblock %}
