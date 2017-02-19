@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -48,12 +49,13 @@ def add_city(request):
 
 def add_shop(request, city_slug):
     city = get_object_or_404(City, slug=city_slug)
-    request.POST['city'] = city
-
-    form = ShopForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        return redirect('orders:city_list')
-    else:
-        return render(request, 'orders/add_shop.html', dict(form=form))
+    return HttpResponse("add shop")
+    # request.POST['city'] = city
+    #
+    # form = ShopForm(request.POST or None)
+    #
+    # if form.is_valid():
+    #     form.save()
+    #     return redirect('orders:city_list')
+    # else:
+    #     return render(request, 'orders/add_shop.html', dict(form=form))

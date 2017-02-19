@@ -1,10 +1,40 @@
 from django.contrib import admin
 
-from .models import City, Shop, Order\
-    # , OrderEntry
+from .models import City, Shop, Order
 
-admin.site.register(City)
-admin.site.register(Shop)
 
-admin.site.register(Order)
-# admin.site.register(OrderEntry)
+class CityAdmin(admin.ModelAdmin):
+    # можем указать список отображаемых полей
+    # list_display = ('name', 'slug')
+
+    # получаем список всех доступных полей через мета модели
+    list_display = [f.name for f in City._meta.fields]
+
+    # фильтр для указаных полей
+    list_filter = ('name',)
+
+    # поиск по указанным полям (регистрозависим)
+    search_fields = ('name',)
+
+    # все поля кроме этих
+    # exclude = ('slug',)
+
+    # class Meta:
+    #     model = City
+
+
+admin.site.register(City, CityAdmin)
+
+
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ('city', 'shop_name')
+
+
+admin.site.register(Shop, ShopAdmin)
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'date')
+
+
+admin.site.register(Order, OrderAdmin)

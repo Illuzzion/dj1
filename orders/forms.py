@@ -3,12 +3,27 @@ from .models import City, Shop, Order
 
 
 class CityForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, help_text='Введите название города')
-    slug = forms.CharField(widget=forms.HiddenInput, required=False)
+    # name = forms.CharField(max_length=100, help_text='Введите название города')
+    # slug = forms.CharField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = City
+        # выведем все поля
+        fields = "__all__"
+
+        # кроме поля slug
         exclude = ('slug',)
+
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'placeholder': 'Название города',
+                'class': 'formcontrol'
+            })
+        }
+
+        labels = {
+            'name': 'Город',
+        }
 
 
 class ShopForm(forms.ModelForm):
@@ -18,9 +33,3 @@ class ShopForm(forms.ModelForm):
     class Meta:
         model = Shop
         exclude = ('city',)
-
-#
-#
-# class OrderForm(forms.ModelForm):
-#     class Meta:
-#         model = Order

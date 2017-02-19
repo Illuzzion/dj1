@@ -12,7 +12,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        В этом городе наших магазинов нет
+        В городе "{{ shop_list.city_id }}" наших магазинов нет
     {% endif %}
-    {#{% url 'orders:add_shop' shop.city.name %}#}
+    {% url 'orders:add_shop' shop_list.city.name %}
 {% endblock %}
