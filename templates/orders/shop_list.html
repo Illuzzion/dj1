@@ -5,14 +5,14 @@
 
 {% block body_block %}
     {% if data.shops %}
-        <h1>Список магазинов</h1>
-        <ul>
-            {% for shop in object_list.shops %}
-                <li>{{ shop }}</li>
+        <h1>{{ data.city.name }}, cписок магазинов</h1>
+        <div class="list-group">
+            {% for shop in data.shops %}
+                <div class="list-group-item">{{ shop.shop_name }}, {{ shop.city }}</div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         В {{ data.city.name }} наших магазинов нет
     {% endif %}
-    <a href="{% url 'orders:add_shop' data.city.slug %}">Добавить магазин</a>
+    <a href="{% url 'orders:add_shop' city_slug %}" class="btn btn-primary">Добавить магазин</a>
 {% endblock %}

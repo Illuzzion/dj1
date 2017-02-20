@@ -18,11 +18,11 @@ class City(models.Model):
         ordering = ('name',)
 
     def save(self, *args, **kwargs):
+        # создадим слаг города по имени
         self.slug = slugify(self.name)
         super(City, self).save(*args, **kwargs)
 
 
-# Choices are: city, city_id, id, order, shop_name
 class Shop(models.Model):
     """
     Магазины в городах
@@ -53,30 +53,3 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-
-#
-# class Artist(models.Model):
-#     first_name = models.CharField(max_length=50)
-#     last_name = models.CharField(max_length=50)
-#
-#     @property
-#     def albums(self):
-#         songs = self.song_set.all()
-#         return Album.objects.filter(song_set__in=songs)
-#
-#
-# class Album(models.Model):
-#     name = models.CharField(max_length=50)
-#     # release_date = models.DateField()
-#
-#     @property
-#     def artists(self):
-#         songs = self.song_set.all()
-#         return Artist.objects.filter(song_set__in=songs)
-#
-#
-# class Song(models.Model):
-#     artists = models.ManyToManyField(Artist)
-#     albums = models.ManyToManyField(Album)
-#     name = models.CharField(max_length=100)
-#     # release_date = models.DateField()

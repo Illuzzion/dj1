@@ -6,13 +6,13 @@
 {% block body_block %}
     {% if city_list %}
         <h1>Список городов</h1>
-        <ul>
+        <div class="list-group">
             {% for city in city_list %}
-                <li><a href="{% url 'orders:shop_list' city.slug %}">{{ city.name }}</a></li>
+                <a href="{% url 'orders:shop_list' city.slug %}" class="list-group-item">{{ city.name }}</a>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         Список городов пуст.
     {% endif %}
-{#    <a href="{% url 'orders:add_city' %}">Добавить город</a>#}
+    <a href="{% url 'orders:add_city' %}" class="btn btn-primary">Добавить город</a>
 {% endblock %}

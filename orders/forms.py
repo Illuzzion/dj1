@@ -17,7 +17,7 @@ class CityForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'Название города',
-                'class': 'formcontrol'
+                'class': 'form-control'
             })
         }
 
@@ -27,10 +27,13 @@ class CityForm(forms.ModelForm):
 
 
 class ShopForm(forms.ModelForm):
-    # name = forms.CharField(max_length=200, help_text='Введите название магазина')
-    # city = forms.CharField(widget=forms.HiddenInput, initial=0, required=False)
-
     class Meta:
         model = Shop
         fields = "__all__"
-        # exclude = ('city',)
+        exclude = ('city',)
+        widgets = {
+            'shop_name': forms.TextInput(attrs={
+                'placeholder': 'Название магазина',
+                'class': 'form-control'
+            })
+        }

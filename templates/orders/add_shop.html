@@ -9,6 +9,6 @@
     <form method="post" action="{% url 'orders:add_shop' form.current_city.slug %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Добавить магазин</button>
+        <button type="submit" class="btn btn-primary">Добавить магазин</button>
     </form>
 {% endblock %}

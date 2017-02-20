@@ -2,11 +2,26 @@
 {% load staticfiles %}
 {% block title_block %}Заказ №{{ order.id }}{% endblock %}
 {% block body_block %}
-    <h1>Заказ №{{ order.id }} от {{ order.date }}</h1>
+    <h1>Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h1>
     <hr>
-    <ul>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Магазин</th>
+            <th>Место</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for shop in order.entry.all %}
-            <li>{{ shop }}</li>
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ shop }}</td>
+                <td></td>
+            </tr>
+            </tbody>
         {% endfor %}
-    </ul>
+    </table>
+
 {% endblock %}
