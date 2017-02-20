@@ -31,6 +31,7 @@ class ShopForm(forms.ModelForm):
         model = Shop
         fields = "__all__"
         exclude = ('city',)
+
         widgets = {
             'shop_name': forms.TextInput(attrs={
                 'placeholder': 'Название магазина',

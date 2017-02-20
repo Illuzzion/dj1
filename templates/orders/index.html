@@ -6,7 +6,8 @@
 
 {% block body_block %}
     {% if order_list %}
-        <h1>Последние заказы</h1>
+        <h2>Последние заказы</h2>
+
         <div class="list-group">
             {% for order in order_list %}
                 <a href="{% url 'orders:detail' order.id %}" class="list-group-item">Заказ №{{ order.id }} от

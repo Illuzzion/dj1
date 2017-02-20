@@ -5,7 +5,8 @@
 
 {% block body_block %}
     {% if data.shops %}
-        <h1>{{ data.city.name }}, cписок магазинов</h1>
+        <h2>{{ data.city.name }}, cписок магазинов</h2>
+
         <div class="list-group">
             {% for shop in data.shops %}
                 <div class="list-group-item">{{ shop.shop_name }}, {{ shop.city }}</div>

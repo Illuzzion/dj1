@@ -5,7 +5,8 @@
 
 {% block body_block %}
     {% if city_list %}
-        <h1>Список городов</h1>
+        <h2>Список городов</h2>
+
         <div class="list-group">
             {% for city in city_list %}
                 <a href="{% url 'orders:shop_list' city.slug %}" class="list-group-item">{{ city.name }}</a>

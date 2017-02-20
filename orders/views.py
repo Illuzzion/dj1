@@ -6,7 +6,7 @@ from .models import Order, Shop, City
 
 
 class IndexView(generic.ListView):
-    # выстроим по id через queryset
+    # отсортируем по id через queryset
     queryset = Order.objects.order_by('-id')
     template_name = 'orders/index.html'
 

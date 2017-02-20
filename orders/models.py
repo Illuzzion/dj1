@@ -20,6 +20,7 @@ class City(models.Model):
     def save(self, *args, **kwargs):
         # создадим слаг города по имени
         self.slug = slugify(self.name)
+
         super(City, self).save(*args, **kwargs)
 
 
