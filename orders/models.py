@@ -45,7 +45,7 @@ class Order(models.Model):
     """
     Заказы
     """
-    entry = models.ManyToManyField(Shop)
+    # entry = models.ManyToManyField(Shop, through='OrderEntry')
     date = models.DateTimeField(verbose_name="Создано", auto_now_add=True, null=True)
 
     def __str__(self):
@@ -54,3 +54,12 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+
+class OrderEntry(models.Model):
+    order = models.ForeignKey(Order)
+    shop = models.ForeignKey(Shop)
+    place = models.IntegerField()
+
+    def __str__(self):
+        return "Заказ №{}, {}, место {}".format(self.order, self.shop, self.place)

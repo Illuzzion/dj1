@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import City, Shop, Order
+from .models import City, Shop, Order, OrderEntry
 
 
 class CityAdmin(admin.ModelAdmin):
@@ -34,7 +34,17 @@ admin.site.register(Shop, ShopAdmin)
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date')
+    list_display = ('id', 'date', )
+
+    class Meta:
+        model = Order
 
 
 admin.site.register(Order, OrderAdmin)
+
+
+class OrderEntryAdmin(admin.ModelAdmin):
+    list_display = ('order', 'shop', 'place')
+
+
+admin.site.register(OrderEntry, OrderEntryAdmin)
