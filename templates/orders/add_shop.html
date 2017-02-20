@@ -4,11 +4,11 @@
 {% block title_block %}Добавление магазина{% endblock %}
 
 {% block body_block %}
-    <h1>Добавление магазина</h1>
+    <h2>Добавление магазина</h2>
     {#    {{ form.current_city.slug }}#}
     <form method="post" action="{% url 'orders:add_shop' form.current_city.slug %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Добавить магазин</button>
+        <button type="submit" class="btn btn-primary">Добавить магазин</button>
     </form>
 {% endblock %}

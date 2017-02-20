@@ -1,0 +1,24 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+{% block title_block %}Заказ №{{ order.id }}{% endblock %}
+{% block body_block %}
+    <h2>Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Магазин</th>
+            <th>Место</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for shop in order.entry.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ shop }}</td>
+                <td></td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

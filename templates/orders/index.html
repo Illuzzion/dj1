@@ -7,15 +7,14 @@
 {% block body_block %}
     {% if order_list %}
         <h1>Последние заказы</h1>
-        <ul>
+        <div class="list-group">
             {% for order in order_list %}
-                <li>
-                    <a href="{% url 'orders:detail' order.id %}">Заказ №{{ order.id }} от
-                        {% localtime on %}{{ order.date }}{% endlocaltime %}{{ order.date }}</a>
-                </li>
+                <a href="{% url 'orders:detail' order.id %}" class="list-group-item">Заказ №{{ order.id }} от
+                    {{ order.date|date:'d.m.Y' }}</a>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         Пока заказов нет
     {% endif %}
+    <a href="#" class="btn btn-primary">Добавить заказ</a>
 {% endblock %}

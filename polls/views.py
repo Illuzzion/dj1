@@ -34,7 +34,7 @@ class IndexView(generic.ListView):
 # old
 # def detail(request, question_id):
 #     question = get_object_or_404(Questions, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
+#     return render(request, 'polls/order_details.html', {'question': question})
 
 
 class DetailView(generic.DetailView):
