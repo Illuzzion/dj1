@@ -57,9 +57,13 @@ class Order(models.Model):
 
 
 class OrderEntry(models.Model):
-    order = models.ForeignKey(Order)
-    shop = models.ForeignKey(Shop)
-    place = models.IntegerField()
+    order = models.ForeignKey(Order, verbose_name='Заказ')
+    shop = models.ForeignKey(Shop, verbose_name='Магазин')
+    place = models.IntegerField(verbose_name='Место')
 
     def __str__(self):
         return "Заказ №{}, {}, место {}".format(self.order, self.shop, self.place)
+
+    class Meta:
+        verbose_name = 'Элемент заказа'
+        verbose_name_plural = 'Элементы заказа'

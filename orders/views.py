@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
@@ -49,21 +50,33 @@ class ShopListView(generic.ListView):
         return locals()
 
 
-def add_city(request):
-    """
-    Добавление города
-    :param request:
-    :return:
-    """
-    form = CityForm(request.POST or None)
+# использование CreateView
+class CityFormView(generic.CreateView):
+    form_class = CityForm
+    template_name = 'orders/add_city.html'
 
-    if form.is_valid():
-        form.save()
+    # так не хочет работать, но работает с указанием ссылки - '/orders/city/'
+    # success_url = reverse('orders:city_list')
 
-        # http://djbook.ru/rel1.8/topics/http/shortcuts.html#redirect
-        return redirect('orders:city_list')
-    else:
-        return render(request, 'orders/add_city.html', dict(form=form))
+    def get_success_url(self):
+        return reverse('orders:city_list')
+
+
+# def add_city(request):
+#     """
+#     Добавление города
+#     :param request:
+#     :return:
+#     """
+#     form = CityForm(request.POST or None)
+#
+#     if form.is_valid():
+#         form.save()
+#
+#         # http://djbook.ru/rel1.8/topics/http/shortcuts.html#redirect
+#         return redirect('orders:city_list')
+#     else:
+#         return render(request, 'orders/add_city.html', dict(form=form))
 
 
 def add_shop(request, city_slug):
