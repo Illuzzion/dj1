@@ -37,6 +37,20 @@ class ShopForm(forms.ModelForm):
         }
 
 
+class ShopFormCBV(forms.ModelForm):
+    class Meta:
+        model = Shop
+        fields = "__all__"
+
+        widgets = {
+            'city': forms.HiddenInput(),
+            'shop_name': forms.TextInput(attrs={
+                'placeholder': 'Название магазина',
+                'class': 'form-control'
+            })
+        }
+
+
 class OrderEntryForm(forms.ModelForm):
     class Meta:
         model = OrderEntry

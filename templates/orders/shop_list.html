@@ -16,4 +16,5 @@
         В {{ data.city.name }} наших магазинов нет
     {% endif %}
     <a href="{% url 'orders:add_shop' city_slug %}" class="btn btn-primary">Добавить магазин</a>
+    <a href="{% url 'orders:add_shopcbv' city_slug %}" class="btn btn-primary">Добавить магазин CBV</a>
 {% endblock %}

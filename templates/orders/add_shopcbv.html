@@ -1,0 +1,14 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Добавление магазина{% endblock %}
+
+{% block body_block %}
+    <h2>Добавление магазина</h2>
+
+    <form method="post" action="{% url 'orders:add_shopcbv' city_slug %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Добавить магазин</button>
+    </form>
+{% endblock %}

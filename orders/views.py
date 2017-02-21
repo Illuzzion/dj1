@@ -2,14 +2,15 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
-from .forms import CityForm, ShopForm
+from .forms import CityForm, ShopForm, ShopFormCBV
 from .models import Order, Shop, City, OrderEntry
 
 
-class IndexView(generic.ListView):
+class OrderIndexView(generic.ListView):
     # отсортируем по id через queryset
     queryset = Order.objects.order_by('-id')
     template_name = 'orders/index.html'
+    paginate_by = 10
 
 
 class OrderDetailView(generic.ListView):
@@ -24,6 +25,7 @@ class OrderDetailView(generic.ListView):
 class CityListView(generic.ListView):
     model = City
     template_name = 'orders/city_list.html'
+    # paginate_by = 5
 
 
 class ShopListView(generic.ListView):
@@ -77,6 +79,39 @@ class CityFormView(generic.CreateView):
 #         return redirect('orders:city_list')
 #     else:
 #         return render(request, 'orders/add_city.html', dict(form=form))
+
+
+class ShopFormView(generic.CreateView):
+    form_class = ShopFormCBV
+    template_name = 'orders/add_shopcbv.html'
+    context_object_name = 'data'
+
+    def get_form(self, form_class=None):
+        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
+        form = ShopFormCBV(initial={'city': city})
+        return form
+
+    # добавим в контекст шаблона слаг текущего города
+    def get_context_data(self, **kwargs):
+        context = super(ShopFormView, self).get_context_data(**kwargs)
+        # city = get_object_or_404(City, slug=self.kwargs['city_slug'])
+        # self.form_class.city
+
+        # context['form'].city = city.id
+        context['city_slug'] = self.kwargs['city_slug']
+        return context
+
+    def get_success_url(self):
+        # TODO починить редирект
+        # return reverse('orders:shop_list', self.kwargs['city_slug'])
+        return reverse('orders:city_list')
+
+    def form_valid(self, form):
+        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
+        shop = form.save(commit=False)
+        shop.city = city
+        shop.save()
+        return redirect(self.get_success_url())
 
 
 def add_shop(request, city_slug):
