@@ -1,25 +1,29 @@
 {% extends 'orders/base.html' %}
 {% load staticfiles %}
-{% block title_block %}Заказ №{{ order.id }}{% endblock %}
+{% block title_block %}Заказ №{{ object_list.order.id }}{% endblock %}
 {% block body_block %}
-    <h2>Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
-
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Номер</th>
-            <th>Магазин</th>
-            <th>Место</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for shop in order.entry.all %}
+    <h2>Заказ №{{ object_list.order.id }} от {{ object_list.order.date|date:'d.m.Y' }}</h2>
+    {% if object_list.order_entries %}
+        <table class="table table-bordered">
+            <thead>
             <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ shop }}</td>
-                <td></td>
+                <th>Номер</th>
+                <th>Магазин</th>
+                <th>Место</th>
             </tr>
-            </tbody>
-        {% endfor %}
-    </table>
+            </thead>
+            <tbody>
+
+            {% for entry in object_list.order_entries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ entry.shop }}</td>
+                    <td>{{ entry.place }}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    {% else %}
+        Заказ пуст
+    {% endif %}
 {% endblock %}

@@ -34,7 +34,7 @@ admin.site.register(Shop, ShopAdmin)
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date', )
+    list_display = ('id', 'date',)
 
     class Meta:
         model = Order
@@ -42,9 +42,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 
+# class OrderEntryAdmin(admin.ModelAdmin):
+#     list_display = ('order', 'shop', 'place')
 
-class OrderEntryAdmin(admin.ModelAdmin):
-    list_display = ('order', 'shop', 'place')
 
-
-admin.site.register(OrderEntry, OrderEntryAdmin)
+admin.site.register(OrderEntry)

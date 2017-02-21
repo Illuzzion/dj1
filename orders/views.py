@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
 from .forms import CityForm, ShopForm
-from .models import Order, Shop, City
+from .models import Order, Shop, City, OrderEntry
 
 
 class IndexView(generic.ListView):
@@ -11,9 +11,13 @@ class IndexView(generic.ListView):
     template_name = 'orders/index.html'
 
 
-class OrderDetailView(generic.DetailView):
-    model = Order
+class OrderDetailView(generic.ListView):
     template_name = 'orders/order_details.html'
+
+    def get_queryset(self):
+        order = Order.objects.get(pk=self.kwargs['pk'])
+        order_entries = OrderEntry.objects.filter(order=order)
+        return locals()
 
 
 class CityListView(generic.ListView):
@@ -35,7 +39,7 @@ class ShopListView(generic.ListView):
         :return:
         """
         context = super(ShopListView, self).get_context_data(**kwargs)
-        # создадим переменную в контексте шаблона с именем {{ city_slug }}
+        # создадим переменную в контексте шаблона, с именем {{ city_slug }}
         context['city_slug'] = self.kwargs['city_slug']
         return context
 
