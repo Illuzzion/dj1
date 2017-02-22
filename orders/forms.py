@@ -1,11 +1,11 @@
 from django import forms
+
 from .models import City, Shop, Order, OrderEntry
 
 
 class CityForm(forms.ModelForm):
     class Meta:
         model = City
-        # выведем все поля
         fields = "__all__"
 
         # кроме поля slug
@@ -17,10 +17,10 @@ class CityForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
-
-        labels = {
-            'name': 'Город',
-        }
+        #
+        # labels = {
+        #     'name': 'Город',
+        # }
 
 
 class ShopForm(forms.ModelForm):
@@ -62,7 +62,8 @@ class OrderEntryForm(forms.ModelForm):
                 'class': 'form-control',
             }),
             'place': forms.NumberInput(attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'placeholder': 'Номер партии'
             }),
         }
 

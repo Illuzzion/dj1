@@ -52,7 +52,7 @@ class ShopListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         """
-        добавиим в контекст шаблона, данные
+        добавим в контекст шаблона, данные
         :param kwargs:
         :return:
         """
@@ -61,8 +61,7 @@ class ShopListView(generic.ListView):
         return context
 
 
-# используем CreateView
-class CityFormView(generic.CreateView):
+class CityCreateView(generic.CreateView):
     form_class = CityForm
     template_name = 'orders/add_city.html'
 
@@ -99,9 +98,9 @@ class ShopFormView(generic.CreateView):
         form = self.form_class(initial={'city': city})
         # context = self.get_context_data()
         # context.update(locals())
-        return self.render_to_response(locals())
+        # return self.render_to_response(locals())
         # или так
-        # return render(request, self.template_name, locals())
+        return render(request, self.template_name, locals())
         # для пояснения хода мыслей
         # return render(request, self.template_name, {'form': form, 'city': city})
         # return render(request, self.template_name, {'form': form, 'city_slug': self.kwargs['city_slug']})
@@ -118,23 +117,23 @@ class ShopFormView(generic.CreateView):
         #     return context
 
 
-def add_shop(request, city_slug):
-    """
-    Добавление магазина
-    :param request: реквест
-    :param city_slug: слаг города из строки запроса
-    :return:
-    """
-    city = get_object_or_404(City, slug=city_slug)
-
-    form = ShopForm(request.POST or None)
-
-    if form.is_valid():
-        # форму нужно сохранить в другую переменную, которую можно изменять
-        shop = form.save(commit=False)
-        shop.city = city
-        shop.save()
-        return redirect('orders:shop_list', city_slug=city.slug)
-    else:
-        form.current_city = city
-        return render(request, 'orders/add_shop.html', dict(form=form))
+# def add_shop(request, city_slug):
+#     """
+#     Добавление магазина
+#     :param request: реквест
+#     :param city_slug: слаг города из строки запроса
+#     :return:
+#     """
+#     city = get_object_or_404(City, slug=city_slug)
+#
+#     form = ShopForm(request.POST or None)
+#
+#     if form.is_valid():
+#         # форму нужно сохранить в другую переменную, которую можно изменять
+#         shop = form.save(commit=False)
+#         shop.city = city
+#         shop.save()
+#         return redirect('orders:shop_list', city_slug=city.slug)
+#     else:
+#         form.current_city = city
+#         return render(request, 'orders/add_shop.html', dict(form=form))

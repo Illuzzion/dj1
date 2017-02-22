@@ -5,12 +5,11 @@
 
 {% block body_block %}
     <h2>Добавить город</h2>
-
     <div>
         <form id="city_form" method="post" action="{% url 'orders:add_city' %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-default">Добавить город</button>
+            <button type="submit" class="btn btn-primary">Добавить город</button>
         </form>
     </div>
 {% endblock %}
