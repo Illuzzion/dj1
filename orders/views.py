@@ -46,8 +46,9 @@ class ShopListView(generic.ListView):
     template_name = 'orders/shop_list.html'
 
     def get_queryset(self):
-        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        return Shop.objects.filter(city=city)
+        return Shop.objects.filter(city__slug=self.kwargs['city_slug'])
+    #     если делать так, то контекст возвращается в objects_list
+    #     return locals()
 
     def get_context_data(self, **kwargs):
         """
@@ -56,8 +57,7 @@ class ShopListView(generic.ListView):
         :return:
         """
         context = super(ShopListView, self).get_context_data(**kwargs)
-        # в контексте уже есть список магазинов с городами, возьмем первый
-        context['city'] = context['shop_list'][0].city
+        context['city'] = get_object_or_404(City, slug=self.kwargs['city_slug'])
         return context
 
 
