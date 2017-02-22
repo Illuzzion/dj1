@@ -7,6 +7,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ form }}
-        <button type="submit" class="btn btn-primary">Добавить новый заказ</button>
+        <button type="submit" class="btn btn-primary">Добавить новую заявку</button>
     </form>
+    <a href="{% url 'orders:index' %}" class="btn">Я передумал</a>
 {% endblock %}

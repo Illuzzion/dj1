@@ -6,16 +6,16 @@
 
 {% block body_block %}
     {% if order_list %}
-        <h2>Последние заказы</h2>
+        <h2>Все заявки</h2>
 
         <div class="list-group">
             {% for order in order_list %}
-                <a href="{% url 'orders:order_details' order.id %}" class="list-group-item">Заказ №{{ order.id }} от
+                <a href="{% url 'orders:order_details' order.id %}" class="list-group-item">Заявка №{{ order.id }} от
                     {{ order.date|date:'d.m.Y' }}</a>
             {% endfor %}
         </div>
     {% else %}
-        Пока заказов нет
+        Пока заявок нет
     {% endif %}
-    <a href="{% url 'orders:new_order' %}" class="btn btn-primary">Добавить заказ</a>
+    <a href="{% url 'orders:new_order' %}" class="btn btn-primary">Добавить заявку</a>
 {% endblock %}

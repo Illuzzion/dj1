@@ -1,8 +1,10 @@
 {% extends 'orders/base.html' %}
 {% load staticfiles %}
-{% block title_block %}Заказ №{{ order.id }}{% endblock %}
+
+{% block title_block %}Заявка №{{ order.id }}{% endblock %}
+
 {% block body_block %}
-    <h2>Заказ №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
+    <h2>Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
     {% if order_entries %}
         <table class="table table-bordered">
             <thead>
@@ -24,12 +26,12 @@
             {% endfor %}
         </table>
     {% else %}
-        Заказ пуст
+        Новая заявка
     {% endif %}
     <hr>
     <form method="post" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Добавить к заказу</button>
+        <button type="submit" class="btn btn-primary">Добавить к заявке</button>
     </form>
 {% endblock %}

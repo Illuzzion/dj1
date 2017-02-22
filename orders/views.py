@@ -14,7 +14,6 @@ class OrderIndexView(generic.ListView):
 
 class OrderCreateView(generic.CreateView):
     form_class = OrderCreateForm
-    model = Order
     template_name = 'orders/new_order.html'
 
     def get_success_url(self):
