@@ -4,17 +4,17 @@
 {% block title_block %}Список магазинов{% endblock %}
 
 {% block body_block %}
-    {% if data.shops %}
-        <h2>{{ data.city.name }}, cписок магазинов</h2>
+    {% if shop_list %}
+        <h2>{{ city.name }}, cписок магазинов</h2>
 
         <div class="list-group">
-            {% for shop in data.shops %}
+            {% for shop in shop_list %}
                 <div class="list-group-item">{{ shop.shop_name }}, {{ shop.city }}</div>
             {% endfor %}
         </div>
     {% else %}
-        В {{ data.city.name }} наших магазинов нет
+        В {{ city.name }} наших магазинов нет
     {% endif %}
-    <a href="{% url 'orders:add_shop' city_slug %}" class="btn btn-primary">Добавить магазин</a>
-    <a href="{% url 'orders:add_shopcbv' city_slug %}" class="btn btn-primary">Добавить магазин CBV</a>
+    {#    <a href="{% url 'orders:add_shop' city_slug %}" class="btn btn-primary">Добавить магазин</a>#}
+    <a href="{% url 'orders:add_shopcbv' city.slug %}" class="btn btn-primary">Добавить магазин</a>
 {% endblock %}

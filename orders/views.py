@@ -10,7 +10,7 @@ class OrderIndexView(generic.ListView):
     # отсортируем по id через queryset
     queryset = Order.objects.order_by('-id')
     template_name = 'orders/index.html'
-    paginate_by = 10
+    # paginate_by = 10
 
 
 class OrderDetailView(generic.ListView):
@@ -33,7 +33,6 @@ class ShopListView(generic.ListView):
     Выводим список магазинов
     """
     template_name = 'orders/shop_list.html'
-    context_object_name = 'data'
 
     def get_context_data(self, **kwargs):
         """
@@ -42,17 +41,16 @@ class ShopListView(generic.ListView):
         :return:
         """
         context = super(ShopListView, self).get_context_data(**kwargs)
-        # создадим переменную в контексте шаблона, с именем {{ city_slug }}
-        context['city_slug'] = self.kwargs['city_slug']
+        # в контексте уже есть список магазинов с городами, возьмем первый
+        context['city'] = context['shop_list'][0].city
         return context
 
     def get_queryset(self):
         city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        shops = Shop.objects.filter(city=city)
-        return locals()
+        return Shop.objects.filter(city=city)
 
 
-# использование CreateView
+# используем CreateView
 class CityFormView(generic.CreateView):
     form_class = CityForm
     template_name = 'orders/add_city.html'
@@ -84,34 +82,25 @@ class CityFormView(generic.CreateView):
 class ShopFormView(generic.CreateView):
     form_class = ShopFormCBV
     template_name = 'orders/add_shopcbv.html'
-    context_object_name = 'data'
 
-    def get_form(self, form_class=None):
+    def get(self, request, *args, **kwargs):
         city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        form = ShopFormCBV(initial={'city': city})
-        return form
-
-    # добавим в контекст шаблона слаг текущего города
-    def get_context_data(self, **kwargs):
-        context = super(ShopFormView, self).get_context_data(**kwargs)
-        # city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        # self.form_class.city
-
-        # context['form'].city = city.id
-        context['city_slug'] = self.kwargs['city_slug']
-        return context
+        form = self.form_class(initial={'city': city})
+        return render(request, self.template_name, locals())
+        # для пояснения хода мыслей
+        # return render(request, self.template_name, {'form': form, 'city': city})
+        # return render(request, self.template_name, {'form': form, 'city_slug': self.kwargs['city_slug']})
 
     def get_success_url(self):
-        # TODO починить редирект
-        # return reverse('orders:shop_list', self.kwargs['city_slug'])
-        return reverse('orders:city_list')
+        return reverse('orders:shop_list', kwargs=self.kwargs)
+        # для наглядности
+        # return reverse('orders:shop_list', kwargs={'city_slug': self.kwargs['city_slug']})
 
-    def form_valid(self, form):
-        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        shop = form.save(commit=False)
-        shop.city = city
-        shop.save()
-        return redirect(self.get_success_url())
+        # добавим в контекст шаблона слаг текущего города
+        # def get_context_data(self, **kwargs):
+        #     context = super(ShopFormView, self).get_context_data(**kwargs)
+        #     context['city_slug'] = self.kwargs['city_slug']
+        #     return context
 
 
 def add_shop(request, city_slug):
