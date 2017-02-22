@@ -55,13 +55,19 @@ class OrderEntryForm(forms.ModelForm):
     class Meta:
         model = OrderEntry
         fields = "__all__"
-        # exclude = ('order',)
 
-        # widgets = {
-            # 'shop': forms.ModelChoiceField(OrderEntry.shop.objects.all(), atttrs={
-            #     'class': 'form-control',
-            # }),
-            # 'place': forms.IntegerField(attrs={
-            #     'class': 'form-control'
-            # })
-        # }
+        widgets = {
+            'order': forms.HiddenInput(),
+            'shop': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'place': forms.NumberInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = "__all__"

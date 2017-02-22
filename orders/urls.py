@@ -12,13 +12,13 @@ urlpatterns = [
     url(r'^city/add/$', views.CityFormView.as_view(), name='add_city'),
 
     url(r'^city/(?P<city_slug>[\w\-]+)/$', views.ShopListView.as_view(), name='shop_list'),
-
+    # fbv
     url(r'^city/(?P<city_slug>[\w\-]+)/add-shop/$', views.add_shop, name='add_shop'),
-
+    # cbv
     url(r'^city/(?P<city_slug>[\w\-]+)/add-shopcbv/$', views.ShopFormView.as_view(), name='add_shopcbv'),
 
-
-    url(r'^order/(?P<pk>[0-9]+)/detail/$', views.OrderDetailView.as_view(), name='detail'),
+    url(r'^order/new/$', views.OrderCreateView.as_view(), name='new_order'),
+    url(r'^order/(?P<pk>[0-9]+)/detail/$', views.OrderDetailView.as_view(), name='order_details'),
 
     # url(r'^order/add/$')
 ]

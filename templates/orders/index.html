@@ -10,12 +10,12 @@
 
         <div class="list-group">
             {% for order in order_list %}
-                <a href="{% url 'orders:detail' order.id %}" class="list-group-item">Заказ №{{ order.id }} от
+                <a href="{% url 'orders:order_details' order.id %}" class="list-group-item">Заказ №{{ order.id }} от
                     {{ order.date|date:'d.m.Y' }}</a>
             {% endfor %}
         </div>
     {% else %}
         Пока заказов нет
     {% endif %}
-    <a href="#" class="btn btn-primary">Добавить заказ</a>
+    <a href="{% url 'orders:new_order' %}" class="btn btn-primary">Добавить заказ</a>
 {% endblock %}

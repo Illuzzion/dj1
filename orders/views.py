@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 
-from .forms import CityForm, ShopForm, ShopFormCBV
+from .forms import CityForm, ShopForm, ShopFormCBV, OrderEntryForm, OrderCreateForm
 from .models import Order, Shop, City, OrderEntry
 
 
@@ -10,22 +10,34 @@ class OrderIndexView(generic.ListView):
     # отсортируем по id через queryset
     queryset = Order.objects.order_by('-id')
     template_name = 'orders/index.html'
-    # paginate_by = 10
 
 
-class OrderDetailView(generic.ListView):
+class OrderCreateView(generic.CreateView):
+    form_class = OrderCreateForm
+    model = Order
+    template_name = 'orders/new_order.html'
+
+    def get_success_url(self):
+        return reverse('orders:index')
+
+
+class OrderDetailView(generic.ListView, generic.CreateView):
     template_name = 'orders/order_details.html'
+    form_class = OrderEntryForm
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
         order = Order.objects.get(pk=self.kwargs['pk'])
         order_entries = OrderEntry.objects.filter(order=order)
-        return locals()
+        form = self.form_class(initial={'order': order})
+        return render(request, self.template_name, locals())
+
+    def get_success_url(self):
+        return reverse('orders:order_details', kwargs=self.kwargs)
 
 
 class CityListView(generic.ListView):
     model = City
     template_name = 'orders/city_list.html'
-    # paginate_by = 5
 
 
 class ShopListView(generic.ListView):
@@ -34,9 +46,13 @@ class ShopListView(generic.ListView):
     """
     template_name = 'orders/shop_list.html'
 
+    def get_queryset(self):
+        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
+        return Shop.objects.filter(city=city)
+
     def get_context_data(self, **kwargs):
         """
-        добавиим в контекст, передаваемый в шаблон, данные
+        добавиим в контекст шаблона, данные
         :param kwargs:
         :return:
         """
@@ -44,10 +60,6 @@ class ShopListView(generic.ListView):
         # в контексте уже есть список магазинов с городами, возьмем первый
         context['city'] = context['shop_list'][0].city
         return context
-
-    def get_queryset(self):
-        city = get_object_or_404(City, slug=self.kwargs['city_slug'])
-        return Shop.objects.filter(city=city)
 
 
 # используем CreateView
@@ -86,7 +98,11 @@ class ShopFormView(generic.CreateView):
     def get(self, request, *args, **kwargs):
         city = get_object_or_404(City, slug=self.kwargs['city_slug'])
         form = self.form_class(initial={'city': city})
-        return render(request, self.template_name, locals())
+        # context = self.get_context_data()
+        # context.update(locals())
+        return self.render_to_response(locals())
+        # или так
+        # return render(request, self.template_name, locals())
         # для пояснения хода мыслей
         # return render(request, self.template_name, {'form': form, 'city': city})
         # return render(request, self.template_name, {'form': form, 'city_slug': self.kwargs['city_slug']})
@@ -99,7 +115,7 @@ class ShopFormView(generic.CreateView):
         # добавим в контекст шаблона слаг текущего города
         # def get_context_data(self, **kwargs):
         #     context = super(ShopFormView, self).get_context_data(**kwargs)
-        #     context['city_slug'] = self.kwargs['city_slug']
+        #     #     context['city_slug'] = self.kwargs['city_slug']
         #     return context
 
 
