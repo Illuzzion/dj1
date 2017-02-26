@@ -16,27 +16,33 @@ class OrderCreateView(generic.CreateView):
     form_class = OrderCreateForm
     template_name = 'orders/new_order.html'
 
+    # TODO: сделать редирект на добавленную заявку
     def get_success_url(self):
         return reverse('orders:index')
 
 
 class OrderDetailView(generic.ListView, generic.CreateView):
-    template_name = 'orders/order_details.html'
+    # template_name = 'orders/order_details.html'
     form_class = OrderEntryForm
 
     def get(self, request, *args, **kwargs):
         order = Order.objects.get(pk=self.kwargs['pk'])
         order_entries = OrderEntry.objects.filter(order=order)
         form = self.form_class(initial={'order': order})
-        return render(request, self.template_name, locals())
+        # return render(request, self.template_name, locals())
+        return self.render_to_response(locals())
 
     def get_success_url(self):
         return reverse('orders:order_details', kwargs=self.kwargs)
+
+    def get_template_names(self):
+        return ['orders/print_order_details.html'] if self.request.GET.get('print') else ['orders/order_details.html']
 
 
 class CityListView(generic.ListView):
     model = City
     template_name = 'orders/city_list.html'
+    paginate_by = 5
 
 
 class ShopListView(generic.ListView):
