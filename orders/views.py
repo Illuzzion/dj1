@@ -53,6 +53,7 @@ class ShopListView(generic.ListView):
 
     def get_queryset(self):
         return Shop.objects.filter(city__slug=self.kwargs['city_slug'])
+
     #     если делать так, то контекст возвращается в objects_list
     #     return locals()
 
@@ -121,7 +122,6 @@ class ShopFormView(generic.CreateView):
         #     context = super(ShopFormView, self).get_context_data(**kwargs)
         #     #     context['city_slug'] = self.kwargs['city_slug']
         #     return context
-
 
 # def add_shop(request, city_slug):
 #     """
