@@ -64,7 +64,8 @@ class Order(models.Model):
 class OrderEntry(models.Model):
     order = models.ForeignKey(Order, verbose_name='Заказ')
     shop = models.ForeignKey(Shop, verbose_name='Магазин')
-    place = models.IntegerField(verbose_name='Место')
+    invoice_number = models.PositiveSmallIntegerField(verbose_name='Номер накладной')
+    place = models.PositiveSmallIntegerField(verbose_name='Количество мест', default=1)
 
     class Meta:
         verbose_name = 'Элемент заказа'

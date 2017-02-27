@@ -44,9 +44,13 @@ class OrderEntryForm(forms.ModelForm):
             'shop': forms.Select(attrs={
                 'class': 'form-control',
             }),
+            'invoice_number': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Номер накладной'
+            }),
             'place': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Номер партии'
+                'placeholder': 'Количество мест'
             }),
         }
 

@@ -58,6 +58,7 @@ class ShopListView(generic.ListView):
     Выводим список магазинов
     """
     template_name = 'orders/shop_list.html'
+    paginate_by = 10
 
     def get_queryset(self):
         """
