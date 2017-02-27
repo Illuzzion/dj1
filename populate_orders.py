@@ -136,6 +136,11 @@ data = {
 
 
 def main(city_shop_data):
+    """
+    заполним данными БД
+    :param city_shop_data:
+    :return:
+    """
     for city_name, shops in city_shop_data.items():
         city, created = City.objects.get_or_create(name=city_name)
         print("{} created:{}".format(city_name, created))
