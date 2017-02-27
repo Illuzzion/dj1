@@ -7,17 +7,7 @@
     <title>{% block title_block %}empty title{% endblock %}</title>
 </head>
 <body>
-<div class="container">
-    <div class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills pull-right">
-                <li><a href="{% url 'orders:index' %}">Главная</a></li>
-                <li><a href="{% url 'orders:city_list' %}">Города & Магазины</a></li>
-            </ul>
-        </nav>
-        <h3 class="text-muted">Заявки</h3>
-    </div>
-
+<div class="container-fluid">
     {% block body_block %}
         empty body
     {% endblock %}
@@ -32,10 +22,18 @@
         crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<link rel="stylesheet" href="{% static 'js/chosen/chosen.css' %}">
-<script src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
-<script>
-    $("#id_shop").chosen();
-</script>
+<style>
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #000;
+}
+
+    .table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #000;
+}
+</style>
 </body>
 </html>

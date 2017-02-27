@@ -1,1 +1,33 @@
-print version
+{% extends 'orders/print_base.html' %}
+
+{% block title_block %}Заявка №{{ order.id }}{% endblock %}
+
+{% block body_block %}
+    <h2 style="text-align: center">Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
+    {% if order_entries %}
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Магазин</th>
+                <th>Место</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in order_entries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ entry.shop }}</td>
+                    <td>{{ entry.place }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+<style type="text/css">
+@media print {
+
+}
+</style>
+{% endblock %}

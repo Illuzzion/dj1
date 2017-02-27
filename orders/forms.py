@@ -17,24 +17,6 @@ class CityForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
-        #
-        # labels = {
-        #     'name': 'Город',
-        # }
-
-
-class ShopForm(forms.ModelForm):
-    class Meta:
-        model = Shop
-        fields = "__all__"
-        exclude = ('city',)
-
-        widgets = {
-            'shop_name': forms.TextInput(attrs={
-                'placeholder': 'Название магазина',
-                'class': 'form-control'
-            })
-        }
 
 
 class ShopFormCBV(forms.ModelForm):
@@ -42,6 +24,7 @@ class ShopFormCBV(forms.ModelForm):
         model = Shop
         fields = "__all__"
 
+        # это тоже часть Meta
         widgets = {
             'city': forms.HiddenInput(),
             'shop_name': forms.TextInput(attrs={

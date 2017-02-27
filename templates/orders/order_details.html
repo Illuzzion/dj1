@@ -6,7 +6,7 @@
 {% block body_block %}
     <h2>Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
     {% if order_entries %}
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
                 <th>Номер</th>
@@ -15,15 +15,14 @@
             </tr>
             </thead>
             <tbody>
-
             {% for entry in order_entries %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ entry.shop }}</td>
                     <td>{{ entry.place }}</td>
                 </tr>
-                </tbody>
             {% endfor %}
+            </tbody>
         </table>
     {% else %}
         Новая заявка
@@ -34,4 +33,5 @@
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Добавить к заявке</button>
     </form>
+    <a href="?print=true" class="btn" target="_blank">Версия для печати</a>
 {% endblock %}
