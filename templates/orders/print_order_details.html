@@ -1,16 +1,23 @@
 {% extends 'orders/print_base.html' %}
 
-{% block title_block %}Заявка №{{ order.id }}{% endblock %}
+{% block title_block %}Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}{% endblock %}
 
 {% block body_block %}
-    <h2 style="text-align: center">Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}</h2>
+    <h2 style="text-align: center">Упаковочный лист<br>ООО "ХОББИ ГРУПП"</h2>
+    <div class="sender">
+    ОТПРАВИТЕЛЬ<br>
+    ООО "ХОББИ ГРУПП", 307170 Промплощадка 2 г.Железногоск<br>
+    Россия (47148) 7-76-55
+    </div>
+    <br>
     {% if order_entries %}
         <table class="table" border="1">
             <thead>
             <tr>
                 <th>Номер</th>
-                <th>Магазин</th>
-                <th>Место</th>
+                <th>Наименование</th>
+                <th>Номер накладной</th>
+                <th>Количество мест</th>
             </tr>
             </thead>
             <tbody>
@@ -19,15 +26,21 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ entry.shop }}</td>
                     <td>{{ entry.place }}</td>
+                    <td>1</td>
                 </tr>
 
             {% endfor %}
+            <tr>
+                <td>УСЛОВИЯ ТРАНСПОРТИРОВАНИЯ, ХРАНЕНИЯ</td>
+                <td colspan="3">Изделия транспортируют всеми видами транспорта в чистых, сухих, крытых транспортных средствах в соответствии с правилами перевозки грузов, действующих на соответствующем виде транспорта.
+Изделия хранят в закрытых помещениях, защищенных от атмосферных осадков и почвенной влаги при температуре от +5 С до +35 С и относительной влажности воздуха 25-70%.</td>
+            </tr>
             </tbody>
         </table>
     {% endif %}
-<style type="text/css">
-@media print {
+    <style type="text/css">
+        @media print {
 
-}
-</style>
+        }
+    </style>
 {% endblock %}

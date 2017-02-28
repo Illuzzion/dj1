@@ -116,7 +116,7 @@ class ShopFormView(generic.CreateView):
 
     def form_invalid(self, form):
         """
-        отобразим форму, если не проходит проверку по unique_together
+        отобразим форму с сообщением, если не проходит валидацию по unique_together
         :param form:
         :return:
         """
