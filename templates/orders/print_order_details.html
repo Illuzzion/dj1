@@ -1,46 +1,86 @@
 {% extends 'orders/print_base.html' %}
 
-{% block title_block %}Заявка №{{ order.id }} от {{ order.date|date:'d.m.Y' }}{% endblock %}
+{% block title_block %}Упаковочный лист №{{ order.id }} от {{ order.date|date:'d.m.Y' }}{% endblock %}
 
 {% block body_block %}
-    <h2 style="text-align: center">Упаковочный лист<br>ООО "ХОББИ ГРУПП"</h2>
-    <div class="sender">
-    ОТПРАВИТЕЛЬ<br>
-    ООО "ХОББИ ГРУПП", 307170 Промплощадка 2 г.Железногоск<br>
-    Россия (47148) 7-76-55
-    </div>
+    <style type="text/css">
+
+        table {
+            border: 1px solid #000000;
+        }
+
+        div.inline {
+            float: left;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .table-bottom {
+            padding: 0px !important;
+        }
+
+        div.inline > p {
+            padding: 8px;
+        }
+
+        .sender {
+            font-size: 16px;
+        }
+    </style>
+    <h2 class="text-center" style="font-size: 28px">Упаковочный лист<br>ООО "ХОББИ ГРУПП"</h2>
     <br>
+    <div class="sender">
+        ОТПРАВИТЕЛЬ<br>
+        ООО "ХОББИ ГРУПП", 307170 Промплощадка 2 г.Железногоск<br>
+        Россия (47148) 7-76-55
+    </div>
+    <br><br>
     {% if order_entries %}
-        <table class="table" border="1">
+        <table class="table" border="1"
+               style="{% if request.GET.size == 'normal' %}
+                   font-size: 14px;
+               {% else %}
+                   font-size: 24px; font-weight: bold;
+               {% endif %}">
             <thead>
             <tr>
-                <th>Номер</th>
-                <th>Наименование</th>
-                <th>Номер накладной</th>
-                <th>Количество мест</th>
+                <th width="3%" class="text-center">№</th>
+                <th class="text-center">Наименование</th>
+                <th width="50" class="text-center">Номер накладной</th>
+                <th width="50" class="text-center">Количество мест</th>
             </tr>
             </thead>
             <tbody>
             {% for entry in order_entries %}
                 <tr>
-                    <td>{{ forloop.counter }}</td>
+                    <td class="text-center">{{ forloop.counter }}</td>
                     <td>{{ entry.shop }}</td>
-                    <td>{{ entry.place }}</td>
-                    <td>1</td>
+                    <td class="text-center">{{ entry.invoice_number }}</td>
+                    <td class="text-center">{{ entry.place }}</td>
                 </tr>
 
             {% endfor %}
             <tr>
-                <td>УСЛОВИЯ ТРАНСПОРТИРОВАНИЯ, ХРАНЕНИЯ</td>
-                <td colspan="3">Изделия транспортируют всеми видами транспорта в чистых, сухих, крытых транспортных средствах в соответствии с правилами перевозки грузов, действующих на соответствующем виде транспорта.
-Изделия хранят в закрытых помещениях, защищенных от атмосферных осадков и почвенной влаги при температуре от +5 С до +35 С и относительной влажности воздуха 25-70%.</td>
+                <td colspan="4" class="table-bottom">
+                    <div>
+                        <div class="inline" style="width: 27%;font-size: 14px;">
+                            <p>УСЛОВИЯ ТРАНСПОРТИРОВАНИЯ, ХРАНЕНИЯ</p>
+                        </div>
+                        <div class="inline" style="width: 70%; font-size: 11px; border-left: 1px solid #000;">
+                            <p>Изделия транспортируют всеми видами транспорта в чистых, сухих, крытых транспортных
+                                средствах в соответствии с правилами перевозки грузов, действующих на соответствующем
+                                виде транспорта. Изделия хранят в закрытых помещениях, защищенных от атмосферных осадков
+                                и почвенной
+                                влаги при температуре от +5 С до +35 С и относительной влажности воздуха 25-70%.</p>
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
     {% endif %}
-    <style type="text/css">
-        @media print {
 
-        }
-    </style>
 {% endblock %}

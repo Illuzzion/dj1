@@ -70,6 +70,7 @@ class OrderEntry(models.Model):
     class Meta:
         verbose_name = 'Элемент заказа'
         verbose_name_plural = 'Элементы заказа'
+        unique_together = ('order', 'invoice_number')
 
     def __str__(self):
-        return "Заказ №{}, {}, место {}".format(self.order, self.shop, self.place)
+        return "Упаковочный лист №{}, {}, номер накладной {}".format(self.order, self.shop, self.invoice_number)

@@ -10,6 +10,7 @@ class OrderIndexView(generic.ListView):
     # отсортируем по id через queryset
     queryset = Order.objects.order_by('-id')
     template_name = 'orders/index.html'
+    paginate_by = 10
 
 
 class OrderCreateView(generic.CreateView):
@@ -45,6 +46,11 @@ class OrderDetailView(generic.ListView, generic.CreateView):
         :return:
         """
         return ['orders/print_order_details.html'] if self.request.GET.get('print') else ['orders/order_details.html']
+
+    def form_invalid(self, form):
+        order = Order.objects.get(pk=self.kwargs['pk'])
+        order_entries = OrderEntry.objects.filter(order=order)
+        return self.render_to_response(locals())
 
 
 class CityListView(generic.ListView):
