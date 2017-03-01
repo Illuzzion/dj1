@@ -1,4 +1,4 @@
 # dj1
-my first django project
+my first django application
 
 see orders folder
