@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from orders import views
 
 urlpatterns = [
+    url(r'^$', views.OrderIndexView.as_view(), name='index'),
     url(r'^polls/', include('polls.urls')),
     url(r'^orders/', include('orders.urls')),
     url(r'^rango/', include('rango.urls')),
