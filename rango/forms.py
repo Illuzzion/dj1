@@ -1,5 +1,7 @@
 from django import forms
-from .models import Category, Page
+from django.contrib.auth.models import User
+
+from .models import Category, Page, UserProfile
 
 
 class CategoryForm(forms.ModelForm):
@@ -23,6 +25,7 @@ class PageForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput, initial=0)
 
     class Meta:
+        # связь формы с моделью
         model = Page
         # Какие поля мы хотим добавить в форму?
         # Сейчас нам не нужны все поля из модели
@@ -35,6 +38,7 @@ class PageForm(forms.ModelForm):
     def clean(self):
         """
         Перегрузим родительскую функцию clean()
+        для проверки и изменения данных введенных пользователем
         :return: dict
         """
         # у родителя этого класса (т.е. forms.ModelForm), есть словарь с очищенными данными - cleaned_data
@@ -48,3 +52,17 @@ class PageForm(forms.ModelForm):
 
         return cleaned_data
 
+
+class UserForm(forms.ModelForm):
+    # укажем инпут password
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'picture')

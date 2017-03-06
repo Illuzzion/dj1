@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'polls.apps.PollsConfig',
     'rango.apps.RangoConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
