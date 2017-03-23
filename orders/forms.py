@@ -59,3 +59,11 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = "__all__"
+
+
+class CityAdminForm(forms.ModelForm):
+    class Meta:
+        model = City
+        # fields = "__all__"
+        # кроме поля slug
+        exclude = ('slug',)
