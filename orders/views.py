@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
@@ -32,9 +32,12 @@ class OrderDetailView(generic.ListView, generic.CreateView):
 
     def get(self, request, *args, **kwargs):
         order = Order.objects.get(pk=self.kwargs['pk'])
-        order_entries = OrderEntry.objects.filter(order=order)
-        form = self.form_class(initial={'order': order})
-        return self.render_to_response(locals())
+
+        return self.render_to_response({
+            'order': order,
+            'order_entries': OrderEntry.objects.filter(order=order),
+            'form': self.form_class(initial={'order': order})
+        })
 
     def get_success_url(self):
         return reverse('orders:order_details', kwargs=self.kwargs)
@@ -48,12 +51,22 @@ class OrderDetailView(generic.ListView, generic.CreateView):
         return ['orders/print_order_details.html'] if self.request.GET.get('print') else ['orders/order_details.html']
 
     def form_invalid(self, form):
+        """
+        Обработка ошибки валидации формы
+        :param form: 
+        :return: 
+        """
         order = Order.objects.get(pk=self.kwargs['pk'])
-        order_entries = OrderEntry.objects.filter(order=order)
-        return self.render_to_response(locals())
+        return self.render_to_response({
+            'order': order,
+            'order_entries': OrderEntry.objects.filter(order=order),
+        })
 
 
 class CityListView(generic.ListView):
+    """
+    Контроллер отображения списка городов
+    """
     model = City
     template_name = 'orders/city_list.html'
     paginate_by = 10
@@ -68,13 +81,14 @@ class ShopListView(generic.ListView):
 
     def get_queryset(self):
         """
-        отфильтруем город по параметру из query_string
+        отфильтруем город по параметру маршрута, взятого из query_string
+        или вернем список всех магазинов
         :return:
         """
-        return Shop.objects.filter(city__slug=self.kwargs['city_slug'])
-
-    #     return locals()
-    #     если делать так, то контекст возвращается в objects_list
+        if 'city_slug' in self.kwargs:
+            return Shop.objects.filter(city__slug=self.kwargs['city_slug'])
+        else:
+            return Shop.objects.order_by('-id')
 
     def get_context_data(self, **kwargs):
         """
@@ -83,7 +97,12 @@ class ShopListView(generic.ListView):
         :return:
         """
         context = super(ShopListView, self).get_context_data(**kwargs)
-        context['city'] = get_object_or_404(City, slug=self.kwargs['city_slug'])
+
+        if 'city_slug' in self.kwargs:
+            context.update({
+                'city': get_object_or_404(City, slug=self.kwargs['city_slug'])
+            })
+
         return context
 
 
@@ -91,15 +110,22 @@ class CityCreateView(generic.CreateView):
     form_class = CityForm
     template_name = 'orders/add_city.html'
 
+    # success_url = reverse_lazy('orders:shop_list', kwargs=self.kwargs)
+
     # success_url = reverse('orders:city_list')
     # так не хочет работать, но работает с указанием ссылки - '/orders/city/'
-    # приходится использовать get_success_url()
+    # приходится использовать get_success_url() или reverse_lazy()
 
     def get_success_url(self):
-        return reverse('orders:city_list')
+        return reverse('orders:shop_list', kwargs={
+            'city_slug': self.object.slug
+        })
 
 
 class ShopFormView(generic.CreateView):
+    """
+    Класс для создание магазина
+    """
     form_class = ShopFormCBV
     template_name = 'orders/add_shopcbv.html'
 

@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^city/add/$', views.CityCreateView.as_view(), name='add_city'),
 
     url(r'^city/(?P<city_slug>[\w\-]+)/$', views.ShopListView.as_view(), name='shop_list'),
+    url(r'^shops/$', views.ShopListView.as_view(), name='all_shops_list'),
     # fbv
     # url(r'^city/(?P<city_slug>[\w\-]+)/add-shop/$', views.add_shop, name='add_shop'),
 

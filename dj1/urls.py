@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^orders/', include('orders.urls')),
     url(r'^rango/', include('rango.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^testapp/', include('testapp.urls')),
 ]
