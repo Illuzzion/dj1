@@ -7,11 +7,17 @@
     {% if city_list %}
         <h2>Список городов</h2>
 
-        <div class="list-group">
+        <ul class="list-group">
             {% for city in city_list %}
-                <a href="{% url 'orders:shop_list' city.slug %}" class="list-group-item">{{ city.name }}</a>
+                <li class="list-group-item">
+                    <a href="{% url 'orders:shop_list' city.slug %}">{{ city.name }}</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'orders:delete_city' city.slug %}" class="badge"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                    {% endif %}
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     {% else %}
         Список городов пуст.
     {% endif %}

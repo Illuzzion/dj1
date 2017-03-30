@@ -11,15 +11,20 @@
             <h2>Cписок магазинов</h2>
         {% endif %}
 
-        <div class="list-group">
+        <ul class="list-group">
             {% for shop in shop_list %}
-                <div class="list-group-item">{{ shop.shop_name }}, {{ shop.city }}</div>
+                <li class="list-group-item">
+                    {{ shop.shop_name }}, {{ shop.city }}
+                    {% if user.is_authenticated %}
+                        <a class="badge" href="{% url 'orders:delete_shop' city.slug shop.id %}"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                    {% endif %}
+                </li>
             {% endfor %}
-        </div>
+        </ul>
     {% else %}
-        В {{ city.name }} наших магазинов нет
+        <h2>В {{ city.name }} наших магазинов нет</h2>
     {% endif %}
-    {#    <a href="{% url 'orders:add_shop' city_slug %}" class="btn btn-primary">Добавить магазин</a>#}
     {% if city.slug %}
         <a href="{% url 'orders:add_shopcbv' city.slug %}" class="btn btn-primary">Добавить магазин</a>
     {% endif %}

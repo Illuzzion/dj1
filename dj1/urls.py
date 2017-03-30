@@ -17,6 +17,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from orders import views
 
+from registration.backends.default.views import RegistrationView
+from django.core.urlresolvers import reverse
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user=None):
+        return 'rango/add_profile/'
+        # return reverse('rango:add_profile')
+
+
 urlpatterns = [
     url(r'^$', views.OrderIndexView.as_view(), name='index'),
     url(r'^polls/', include('polls.urls')),
@@ -24,4 +34,10 @@ urlpatterns = [
     url(r'^rango/', include('rango.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^testapp/', include('testapp.urls')),
+
+    # Добавляем эту строку в URL шаблоны, чтобы переопределить шаблон, используемый по умолчанию для учетных записей, - r'^accounts/'.
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+
+    # url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 ]

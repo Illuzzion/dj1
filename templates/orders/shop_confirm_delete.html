@@ -1,0 +1,13 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Удаление магазина {{ shop.shop_name }}{% endblock %}
+
+{% block body_block %}
+    <h2>Хотите удалить {{ shop.shop_name }}?</h2>
+
+    <form method="post" action="{% url 'orders:delete_shop' shop.city.slug shop.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Удалить</button>
+    </form>
+{% endblock %}

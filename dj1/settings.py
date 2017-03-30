@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rango.apps.RangoConfig',
 
     'django.contrib.admin',
+    'registration',  # django-registration-redux should be immediately above 'django.contrib.auth'
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
 
     'django_select2',
     'testapp',
+
+    'bootstrap_toolkit',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +136,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # tangowithdjango 121
-LOGIN_URL = '/rango/login/'
+# LOGIN_URL = '/rango/login/'
+
+
+# django-registration-redux settings
+# If True, users can register
+REGISTRATION_OPEN = True
+# One-week activation window; you may, of course, use a different value.
+ACCOUNT_ACTIVATION_DAYS = 7
+# If True, the user will be automatically logged in.
+REGISTRATION_AUTO_LOGIN = True
+# The page you want users to arrive at after they successfully log in
+LOGIN_REDIRECT_URL = '/rango/'
+# The page users are directed to if they are not logged in,
+# and are trying to access pages requiring authentication
+LOGIN_URL = '/accounts/login/'

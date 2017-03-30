@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -154,3 +156,15 @@ class ShopFormView(generic.CreateView):
         """
         city = get_object_or_404(City, slug=self.kwargs['city_slug'])
         return self.render_to_response(locals())
+
+
+# @login_required
+class CityDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = City
+    success_url = reverse_lazy('orders:city_list')
+
+
+# @login_required
+class ShopDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Shop
+    success_url = reverse_lazy('orders:city_list')
