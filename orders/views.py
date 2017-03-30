@@ -158,13 +158,13 @@ class ShopFormView(generic.CreateView):
         return self.render_to_response(locals())
 
 
-# @login_required
 class CityDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = City
     success_url = reverse_lazy('orders:city_list')
 
 
-# @login_required
 class ShopDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Shop
-    success_url = reverse_lazy('orders:city_list')
+
+    def get_success_url(self):
+        return reverse('orders:shop_list', kwargs={'city_slug': self.object.city.slug})
